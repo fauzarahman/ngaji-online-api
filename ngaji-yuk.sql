@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Waktu pembuatan: 28. April 2025 jam 03:05
+-- Waktu pembuatan: 01. Mei 2025 jam 14:50
 -- Versi Server: 5.1.41
 -- Versi PHP: 5.3.1
 
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS `lessons` (
   `module_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `video_header_id` int(11) DEFAULT NULL,
-  `week_number` int(1) NOT NULL,
+  `video_header_id` varchar(255) DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -93,9 +93,9 @@ CREATE TABLE IF NOT EXISTS `lessons` (
 -- Dumping data untuk tabel `lessons`
 --
 
-INSERT INTO `lessons` (`id`, `module_id`, `title`, `description`, `video_header_id`, `week_number`, `created_date`, `updated_date`) VALUES
-(1, 1, 'Muqadimah', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English.', NULL, 1, '2025-04-20 19:12:45', '2025-04-20 19:12:45'),
-(2, 2, 'Muqadimah', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.', NULL, 1, '2025-04-20 19:06:42', '2025-04-20 19:06:42');
+INSERT INTO `lessons` (`id`, `module_id`, `title`, `description`, `video_header_id`, `thumbnail`, `created_date`, `updated_date`) VALUES
+(1, 1, 'Muqadimah', 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using ''Content here, content here'', making it look like readable English.', 'https://www.youtube.com/watch?v=uBU30B75YTI&list=TLPQMjkwNDIwMjXbRCdtRXrJIQ&index=1&pp=gAQBiAQB', '', '2025-04-20 19:12:45', '2025-04-20 19:12:45'),
+(2, 2, 'Muqadimah', 'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don''t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn''t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.', NULL, '', '2025-04-20 19:06:42', '2025-04-20 19:06:42');
 
 -- --------------------------------------------------------
 
@@ -129,8 +129,8 @@ CREATE TABLE IF NOT EXISTS `modules` (
   `title` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `video_header_id` varchar(255) DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
   `instructor_id` varchar(225) NOT NULL,
-  `weeks` int(11) NOT NULL,
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -140,9 +140,9 @@ CREATE TABLE IF NOT EXISTS `modules` (
 -- Dumping data untuk tabel `modules`
 --
 
-INSERT INTO `modules` (`id`, `title`, `description`, `video_header_id`, `instructor_id`, `weeks`, `created_date`, `updated_date`) VALUES
-(1, 'Lesson 1', 'Idzhar', NULL, '3', 4, '2025-04-20 19:06:42', '2025-04-20 19:06:42'),
-(2, 'Lesson 2', 'Idghom', NULL, '3', 4, '2025-04-20 19:06:42', '2025-04-20 19:06:42');
+INSERT INTO `modules` (`id`, `title`, `description`, `video_header_id`, `thumbnail`, `instructor_id`, `created_date`, `updated_date`) VALUES
+(1, 'Lesson 1', 'Idzhar', NULL, NULL, '3', '2025-04-20 19:06:42', '2025-04-20 19:06:42'),
+(2, 'Lesson 2', 'Idghom', NULL, NULL, '3', '2025-04-20 19:06:42', '2025-04-20 19:06:42');
 
 -- --------------------------------------------------------
 
@@ -162,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `profiles` (
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data untuk tabel `profiles`
@@ -172,7 +172,8 @@ INSERT INTO `profiles` (`id`, `user_id`, `display_name`, `jobtitle`, `tagline`, 
 (1, 2, 'Fauza Rahman', 'Admin Ngaji Yuk', NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 3, 'Fauzi Rahman', 'Imam Masjid Raden Rauf', NULL, NULL, NULL, NULL, NULL, NULL),
 (3, 4, 'Reazy Ega', 'Karyawan Magang', NULL, NULL, NULL, NULL, NULL, NULL),
-(4, 23, 'vina', 'irt', NULL, NULL, NULL, '1745578317077-4001.jpeg', '2025-04-25 10:51:57', NULL);
+(4, 23, 'vina', 'irt', NULL, NULL, NULL, '1745578317077-4001.jpeg', '2025-04-25 10:51:57', NULL),
+(8, 28, 'Rafi', 'Mahasiswa', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -215,7 +216,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `created_date` datetime DEFAULT NULL,
   `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=29 ;
 
 --
 -- Dumping data untuk tabel `users`
@@ -225,7 +226,8 @@ INSERT INTO `users` (`id`, `email`, `password`, `role`, `created_date`, `updated
 (2, 'fauza@mail.com', '$2b$10$VQcHhO2/ez/6wF.I6qJgDOvC5bcO7QzYhrrFfMbNuM5zNF1R8TUFW', 'admin', NULL, NULL),
 (3, 'fauzi@mail.com', '$2b$10$8q72Pn0qHjmzzopj15B2JuWmaJIEb79NFUF67QgKDUdCNC6Uf0HqC', 'guru', NULL, NULL),
 (4, 'rezy@mail.com', '$2b$10$yHaIzKeucV4QgsrpIW2uI.YArQ0mRcYFrRRzrViu9SPIyb8q/lpJi', 'santri', NULL, NULL),
-(23, 'vina@mail.com', '$2b$10$bNJBlY665uC1nqYTtNTZ..ZUF1iUsxk6IfbF5lf5ySR6Mg5bybgA2', 'santri', '2025-04-25 10:51:56', NULL);
+(23, 'vina@mail.com', '$2b$10$bNJBlY665uC1nqYTtNTZ..ZUF1iUsxk6IfbF5lf5ySR6Mg5bybgA2', 'santri', '2025-04-25 10:51:56', NULL),
+(28, 'rafi@mail.com', '$2b$10$rKvbCNghZ8gDaXsVB7x1IOQe9qJXmW5nlhSGArI6jrCbOoBmbfbHe', 'santri', '2025-04-29 02:59:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -242,12 +244,14 @@ CREATE TABLE IF NOT EXISTS `videologs` (
   `is_complete` int(1) DEFAULT NULL COMMENT '1:true/0:false',
   `updated_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data untuk tabel `videologs`
 --
 
+INSERT INTO `videologs` (`id`, `parent_id`, `user_id`, `last_position`, `duration`, `is_complete`, `updated_date`) VALUES
+(1, 1, 4, 4689, 4690, 1, '2025-05-01 13:53:01');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
