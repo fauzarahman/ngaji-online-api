@@ -20,16 +20,32 @@ export * from './modules.schema.js'
 
 import { authorize } from '../../hooks/authorize.js'
 
-// A configure function that registers the service and its hooks via `app.configure`
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
+const moduleResolvers = {
+  instructorProfile: async (module, context) => {
+    if (module.instructor_id) {
+      try {
+        const profileService = context.app.service('profiles');
+        const profiles = await profileService.find({
+          query: { user_id: module.instructor_id },
+          paginate: false
+        });
+        module.instructor_profile = profiles[0] || null;
+      } catch (error) {
+        console.error('Error fetching instructor profile', error);
+        module.instructor_profile = null;
+      }
+    }
+  }
+};
+
 export const modules = app => {
-  // Register our service on the Feathers application
   app.use(modulesPath, new ModulesService(getOptions(app)), {
-    // A list of all methods this service exposes externally
     methods: modulesMethods,
-    // You can add additional custom events to be sent to clients here
     events: []
-  })
-  // Initialize hooks
+  });
+
   app.service(modulesPath).hooks({
     around: {
       all: [
@@ -37,19 +53,34 @@ export const modules = app => {
         schemaHooks.resolveExternal(modulesExternalResolver),
         schemaHooks.resolveResult(modulesResolver)
       ],
-      create: [ authorize(['admin','guru']) ],
-      patch: [ authorize(['admin','guru']) ],
-      remove: [ authorize(['admin','guru']) ]
+      create: [authorize(['admin', 'guru'])],
+      patch: [authorize(['admin', 'guru'])],
+      remove: [authorize(['admin', 'guru'])]
     },
     before: {
-      all: [schemaHooks.validateQuery(modulesQueryValidator), schemaHooks.resolveQuery(modulesQueryResolver)],
+      all: [
+        schemaHooks.validateQuery(modulesQueryValidator),
+        schemaHooks.resolveQuery(modulesQueryResolver)
+      ],
       find: [],
       get: [],
-      create: [schemaHooks.validateData(modulesDataValidator), schemaHooks.resolveData(modulesDataResolver)],
-      patch: [schemaHooks.validateData(modulesPatchValidator), schemaHooks.resolveData(modulesPatchResolver)],
+      create: [
+        schemaHooks.validateData(modulesDataValidator),
+        schemaHooks.resolveData(modulesDataResolver)
+      ],
+      patch: [
+        schemaHooks.validateData(modulesPatchValidator),
+        schemaHooks.resolveData(modulesPatchResolver)
+      ],
       remove: []
     },
     after: {
+      find: [
+        alterItems(moduleResolvers.instructorProfile)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(moduleResolvers.instructorProfile)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {

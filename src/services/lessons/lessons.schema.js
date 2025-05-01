@@ -40,7 +40,15 @@ export const lessonsPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const lessonsQueryProperties = Type.Pick(lessonsSchema, ['id', 'text'])
+export const lessonsQueryProperties = Type.Pick(lessonsSchema, [
+  'id',
+  'module_id',
+  'title',
+  'description',
+  'week_number',
+  'is_complete'
+]);
+
 export const lessonsQuerySchema = Type.Intersect(
   [
     querySyntax(lessonsQueryProperties),

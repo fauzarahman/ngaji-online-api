@@ -15,8 +15,28 @@ import {
 import { VideologsService, getOptions } from './videologs.class.js'
 import { videologsPath, videologsMethods } from './videologs.shared.js'
 
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
 export * from './videologs.class.js'
 export * from './videologs.schema.js'
+
+const moduleResolvers = {
+  moduleDetail: async (videolog, context) => {
+    if (videolog.parent_id) {
+      try {
+        const moduleService = context.app.service('modules');
+        const modules = await moduleService.find({
+          query: { id: videolog.parent_id },
+          paginate: false
+        });
+        videolog.module_detail = modules[0] || null;
+      } catch (error) {
+        console.error('Error fetching module detail', error);
+        videolog.module_detail = null;
+      }
+    }
+  }
+};
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const videologs = app => {
@@ -54,6 +74,12 @@ export const videologs = app => {
       remove: []
     },
     after: {
+      find: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {

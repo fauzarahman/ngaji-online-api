@@ -20,6 +20,26 @@ export * from './lessons.schema.js'
 
 import { authorize } from '../../hooks/authorize.js'
 
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
+const moduleResolvers = {
+  moduleDetail: async (lesson, context) => {
+    if (lesson.module_id) {
+      try {
+        const moduleService = context.app.service('modules');
+        const modules = await moduleService.find({
+          query: { id: lesson.module_id },
+          paginate: false
+        });
+        lesson.module_detail = modules[0] || null;
+      } catch (error) {
+        console.error('Error fetching module detail', error);
+        lesson.module_detail = null;
+      }
+    }
+  }
+};
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const lessons = app => {
   // Register our service on the Feathers application
@@ -50,6 +70,12 @@ export const lessons = app => {
       remove: []
     },
     after: {
+      find: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {
