@@ -18,6 +18,26 @@ import { quizPath, quizMethods } from './quiz.shared.js'
 export * from './quiz.class.js'
 export * from './quiz.schema.js'
 
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
+const moduleResolvers = {
+  moduleDetail: async (quiz, context) => {
+    if (quiz.modules_id) {
+      try {
+        const moduleService = context.app.service('modules');
+        const modules = await moduleService.find({
+          query: { id: quiz.modules_id },
+          paginate: false
+        });
+        quiz.module_detail = modules[0] || null;
+      } catch (error) {
+        console.error('Error fetching module detail', error);
+        quiz.module_detail = null;
+      }
+    }
+  }
+};
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const quiz = app => {
   // Register our service on the Feathers application
@@ -45,6 +65,12 @@ export const quiz = app => {
       remove: []
     },
     after: {
+      find: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(moduleResolvers.moduleDetail)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {

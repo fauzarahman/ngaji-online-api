@@ -7,6 +7,7 @@ import { dataValidator, queryValidator } from '../../validators.js'
 export const quizSchema = Type.Object(
   {
     id: Type.Number(),
+    modules_id: Type.Number(),
     type: Type.String(),
     question: Type.String(),
     media_id: Type.Number(),
@@ -40,7 +41,7 @@ export const quizPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'text'])
+export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'modules_id','type','question','media_id','answer_type'])
 export const quizQuerySchema = Type.Intersect(
   [
     querySyntax(quizQueryProperties),

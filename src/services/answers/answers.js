@@ -18,6 +18,26 @@ import { answersPath, answersMethods } from './answers.shared.js'
 export * from './answers.class.js'
 export * from './answers.schema.js'
 
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
+const userResolvers = {
+  userDetail: async (answer, context) => {
+    if (answer.user_id) {
+      try {
+        const moduleService = context.app.service('profiles');
+        const modules = await moduleService.find({
+          query: { user_id: answer.user_id },
+          paginate: false
+        });
+        answer.user_detail = modules[0] || null;
+      } catch (error) {
+        console.error('Error fetching module detail', error);
+        answer.module_detail = null;
+      }
+    }
+  }
+};
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const answers = app => {
   // Register our service on the Feathers application
@@ -45,6 +65,12 @@ export const answers = app => {
       remove: []
     },
     after: {
+      find: [
+        alterItems(userResolvers.userDetail)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(userResolvers.userDetail)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {

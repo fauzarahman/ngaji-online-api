@@ -20,6 +20,26 @@ import { authorize } from '../../hooks/authorize.js'
 export * from './profiles.class.js'
 export * from './profiles.schema.js'
 
+import { fastJoin, alterItems } from 'feathers-hooks-common'
+
+const userResolvers = {
+  userRole: async (profile, context) => {
+    if (profile.user_id) {
+      try {
+        const userService = context.app.service('users');
+        const users = await userService.find({
+          query: { id: profile.user_id },
+          paginate: false
+        });
+        profile.user_role = users[0].role || null;
+      } catch (error) {
+        console.error('Error fetching instructor profile', error);
+        profile.user_role = null;
+      }
+    }
+  }
+};
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const profiles = app => {
   // Register our service on the Feathers application
@@ -58,6 +78,12 @@ export const profiles = app => {
       remove: []
     },
     after: {
+      find: [
+        alterItems(userResolvers.userRole)  // 🔥 pindah ke AFTER.FIND
+      ],
+      get: [
+        alterItems(userResolvers.userRole)  // 🔥 juga di AFTER.GET
+      ],
       all: []
     },
     error: {

@@ -7,7 +7,7 @@ import { dataValidator, queryValidator } from '../../validators.js'
 export const answersSchema = Type.Object(
   {
     id: Type.Number(),
-    lesson_id: Type.Number(),
+    quiz_id: Type.Number(),
     user_id: Type.Number(),
     answer_type: Type.String(),
     answer_value: Type.String(),
@@ -25,7 +25,15 @@ export const answersResolver = resolve({})
 export const answersExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const answersDataSchema = answersSchema
+export const answersDataSchema = Type.Pick(answersSchema, [
+  'quiz_id',
+  'user_id',
+  'answer_type',
+  'answer_value',
+  'is_passed',
+  'score',
+  'review_notes'
+])
 
 export const answersDataValidator = getValidator(answersDataSchema, dataValidator)
 export const answersDataResolver = resolve({
@@ -42,7 +50,7 @@ export const answersPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'text'])
+export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'quiz_id','user_id','is_passed'])
 export const answersQuerySchema = Type.Intersect(
   [
     querySyntax(answersQueryProperties),
