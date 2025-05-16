@@ -9,6 +9,8 @@ export const modulesSchema = Type.Object(
     id: Type.Number(),
     title: Type.String(),
     video_header_id: Type.Number(),
+    thumbnail: Type.String(),
+    section_id: Type.Number(),
     instructor_id: Type.Number(),
     weeks: Type.Number(),
     created_date: Type.String({ format: 'date-time' }),
@@ -38,7 +40,7 @@ export const modulesPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const modulesQueryProperties = Type.Pick(modulesSchema, ['id', 'instructor_id'])
+export const modulesQueryProperties = Type.Pick(modulesSchema, ['id', 'section_id','instructor_id'])
 export const modulesQuerySchema = Type.Intersect(
   [
     querySyntax(modulesQueryProperties),

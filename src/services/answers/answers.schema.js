@@ -50,7 +50,7 @@ export const answersPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'quiz_id','user_id','is_passed'])
+export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'quiz_id','user_id','is_passed','created_date'])
 export const answersQuerySchema = Type.Intersect(
   [
     querySyntax(answersQueryProperties),

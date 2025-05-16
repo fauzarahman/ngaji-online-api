@@ -1,3 +1,4 @@
+import { sections } from './sections/sections.js'
 import { uploads } from './uploads/uploads.js'
 import { videologs } from './videologs/videologs.js'
 import { quiz } from './quiz/quiz.js'
@@ -9,6 +10,8 @@ import { modules } from './modules/modules.js'
 import { lessons } from './lessons/lessons.js'
 import { user } from './users/users.js'
 export const services = app => {
+  app.configure(sections)
+
   app.configure(uploads)
 
   app.configure(videologs)
