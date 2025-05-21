@@ -13,6 +13,7 @@ export const quizSchema = Type.Object(
     media_id: Type.Number(),
     answer_type: Type.String(),
     is_completed: Type.String(),
+    created_by: Type.Number(),
     created_date: Type.String({ format: 'date-time' }),
     updated_date: Type.String({ format: 'date-time' })
 
@@ -41,7 +42,7 @@ export const quizPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'modules_id','type','question','media_id','answer_type'])
+export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'modules_id','type','question','media_id','answer_type','created_by'])
 export const quizQuerySchema = Type.Intersect(
   [
     querySyntax(quizQueryProperties),

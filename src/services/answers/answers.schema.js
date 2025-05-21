@@ -9,6 +9,8 @@ export const answersSchema = Type.Object(
     id: Type.Number(),
     quiz_id: Type.Number(),
     user_id: Type.Number(),
+    instructor_id: Type.Number(),
+    reply_to: Type.Number(),
     answer_type: Type.String(),
     answer_value: Type.String(),
     checked_by: Type.Number(),
@@ -28,6 +30,8 @@ export const answersExternalResolver = resolve({})
 export const answersDataSchema = Type.Pick(answersSchema, [
   'quiz_id',
   'user_id',
+  'instructor_id',
+  'reply_to',
   'answer_type',
   'answer_value',
   'is_passed',
@@ -50,7 +54,7 @@ export const answersPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'quiz_id','user_id','is_passed','created_date'])
+export const answersQueryProperties = Type.Pick(answersSchema, ['id', 'quiz_id','user_id','instructor_id','reply_to','is_passed','created_date'])
 export const answersQuerySchema = Type.Intersect(
   [
     querySyntax(answersQueryProperties),

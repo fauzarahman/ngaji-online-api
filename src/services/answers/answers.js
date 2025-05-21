@@ -38,6 +38,24 @@ const userResolvers = {
   }
 };
 
+const quizResolvers = {
+  quizDetail: async (answer, context) => {
+    if (answer.quiz_id) {
+      try {
+        const quizService = context.app.service('quiz');
+        const quiz = await quizService.find({
+          query: { id: answer.quiz_id },
+          paginate: false
+        });
+        answer.quiz_detail = quiz[0] || null;
+      } catch (error) {
+        console.error('Error fetching quiz detail', error);
+        answer.quiz_detail = null;
+      }
+    }
+  }
+};
+
 // A configure function that registers the service and its hooks via `app.configure`
 export const answers = app => {
   // Register our service on the Feathers application
@@ -66,10 +84,12 @@ export const answers = app => {
     },
     after: {
       find: [
-        alterItems(userResolvers.userDetail)  // 🔥 pindah ke AFTER.FIND
+        alterItems(userResolvers.userDetail),
+        alterItems(quizResolvers.quizDetail)  
       ],
       get: [
-        alterItems(userResolvers.userDetail)  // 🔥 juga di AFTER.GET
+        alterItems(userResolvers.userDetail),
+        alterItems(quizResolvers.quizDetail)  
       ],
       all: []
     },
