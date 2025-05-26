@@ -57,9 +57,9 @@ export const lessons = app => {
         schemaHooks.resolveExternal(lessonsExternalResolver),
         schemaHooks.resolveResult(lessonsResolver)
       ],
-      create: [ authorize(['admin','guru']) ],
-      patch: [ authorize(['admin','guru']) ],
-      remove: [ authorize(['admin','guru']) ]
+      create: [],
+      patch: [],
+      remove: []
     },
     before: {
       all: [schemaHooks.validateQuery(lessonsQueryValidator), schemaHooks.resolveQuery(lessonsQueryResolver)],

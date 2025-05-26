@@ -38,7 +38,7 @@ export const user = app => {
       create: [],
       update: [authenticate('jwt')],
       patch: [authenticate('jwt')],
-      remove: [ authenticate('jwt'), authorize(['admin']) ]
+      remove: [ authenticate('jwt') ]
     },
     before: {
       all: [schemaHooks.validateQuery(userQueryValidator), schemaHooks.resolveQuery(userQueryResolver)],

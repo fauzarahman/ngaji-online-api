@@ -30,6 +30,7 @@ const moduleResolvers = {
           paginate: false
         });
         quiz.module_detail = modules[0] || null;
+        
       } catch (error) {
         console.error('Error fetching module detail', error);
         quiz.module_detail = null;
@@ -37,6 +38,7 @@ const moduleResolvers = {
     }
   }
 };
+
 
 // A configure function that registers the service and its hooks via `app.configure`
 export const quiz = app => {

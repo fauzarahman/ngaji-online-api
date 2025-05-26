@@ -25,6 +25,8 @@ export {}
 
 export {}
 
+export {}
+
 /**
  * Returns a  client for the ngaji-yuk app.
  *
@@ -61,6 +63,8 @@ export const createClient = (connection, authenticationOptions = {}) => {
   client.configure(uploadsClient)
 
   client.configure(sectionsClient)
+
+  client.configure(donationsClient)
 
   return client
 }

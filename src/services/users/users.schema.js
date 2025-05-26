@@ -45,7 +45,7 @@ export const userPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const userQueryProperties = Type.Pick(userSchema, ['id', 'email'])
+export const userQueryProperties = Type.Pick(userSchema, ['id', 'email','role'])
 export const userQuerySchema = Type.Intersect(
   [
     querySyntax(userQueryProperties),
@@ -55,13 +55,4 @@ export const userQuerySchema = Type.Intersect(
   { additionalProperties: false }
 )
 export const userQueryValidator = getValidator(userQuerySchema, queryValidator)
-export const userQueryResolver = resolve({
-  // If there is a user (e.g. with authentication), they are only allowed to see their own data
-  id: async (value, user, context) => {
-    if (context.params.user) {
-      return context.params.user.id
-    }
-
-    return value
-  }
-})
+export const userQueryResolver = resolve({})

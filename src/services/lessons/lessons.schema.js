@@ -10,12 +10,14 @@ export const lessonsSchema = Type.Object(
     module_id: Type.Number(),
     title: Type.String(),
     description: Type.String(),
-    media_id: Type.Number(),
-    week_number: Type.Number(),
-    is_complete: Type.Number(),
+    video_header_id: Type.String(),
+    thumbnail:Type.String(),
+    created_by: Type.Number(),
     created_date: Type.String({ format: 'date-time' }),
-    updated_date: Type.String({ format: 'date-time' })
-  }
+    updated_date: Type.String({ format: 'date-time' }),
+    is_deleted: Type.Number()
+  },
+  { $id: 'Lessons', additionalProperties: false }
 )
 export const lessonsValidator = getValidator(lessonsSchema, dataValidator)
 export const lessonsResolver = resolve({})
@@ -23,7 +25,14 @@ export const lessonsResolver = resolve({})
 export const lessonsExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const lessonsDataSchema = lessonsSchema
+export const lessonsDataSchema = Type.Pick(lessonsSchema, [
+  'module_id',
+  'title',
+  'description',
+  'video_header_id',
+  'thumbnail',
+  'created_by'
+], { $id: 'LessonsData' })
 
 export const lessonsDataValidator = getValidator(lessonsDataSchema, dataValidator)
 export const lessonsDataResolver = resolve({
@@ -46,7 +55,9 @@ export const lessonsQueryProperties = Type.Pick(lessonsSchema, [
   'title',
   'description',
   'week_number',
-  'is_complete'
+  'is_complete',
+  'created_by',
+  'is_deleted'
 ]);
 
 export const lessonsQuerySchema = Type.Intersect(

@@ -53,9 +53,9 @@ export const modules = app => {
         schemaHooks.resolveExternal(modulesExternalResolver),
         schemaHooks.resolveResult(modulesResolver)
       ],
-      create: [authorize(['admin', 'guru'])],
-      patch: [authorize(['admin', 'guru'])],
-      remove: [authorize(['admin', 'guru'])]
+      create: [],
+      patch: [],
+      remove: []
     },
     before: {
       all: [

@@ -24,7 +24,7 @@ const moduleResolvers = {
   moduleDetail: async (videolog, context) => {
     if (videolog.parent_id) {
       try {
-        const moduleService = context.app.service('modules');
+        const moduleService = context.app.service('lessons');
         const modules = await moduleService.find({
           query: { id: videolog.parent_id },
           paginate: false

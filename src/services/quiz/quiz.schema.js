@@ -10,13 +10,12 @@ export const quizSchema = Type.Object(
     modules_id: Type.Number(),
     type: Type.String(),
     question: Type.String(),
-    media_id: Type.Number(),
+    media_id: Type.String(),
     answer_type: Type.String(),
-    is_completed: Type.String(),
     created_by: Type.Number(),
     created_date: Type.String({ format: 'date-time' }),
-    updated_date: Type.String({ format: 'date-time' })
-
+    updated_date: Type.String({ format: 'date-time' }),
+    is_deleted: Type.Number()
   }
 )
 export const quizValidator = getValidator(quizSchema, dataValidator)
@@ -25,7 +24,13 @@ export const quizResolver = resolve({})
 export const quizExternalResolver = resolve({})
 
 // Schema for creating new entries
-export const quizDataSchema = quizSchema
+export const quizDataSchema = Type.Pick(quizSchema, [
+  'module_id',
+  'question',
+  'media_id',
+  'created_by'
+], { $id: 'QuizData' })
+
 
 export const quizDataValidator = getValidator(quizDataSchema, dataValidator)
 export const quizDataResolver = resolve({
@@ -42,7 +47,7 @@ export const quizPatchResolver = resolve({
 })
 
 // Schema for allowed query properties
-export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'modules_id','type','question','media_id','answer_type','created_by'])
+export const quizQueryProperties = Type.Pick(quizSchema, ['id', 'modules_id','type','question','media_id','answer_type','created_by','is_deleted'])
 export const quizQuerySchema = Type.Intersect(
   [
     querySyntax(quizQueryProperties),
