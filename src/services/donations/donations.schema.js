@@ -12,6 +12,7 @@ export const donationsSchema = Type.Object(
     source_bank: Type.String(),
     amount: Type.Number(),
     proof_image: Type.String(),
+    is_verified: Type.Number(),
     created_at: Type.Optional(Type.String({ format: 'date-time' }))
   },
   { $id: 'Donations', additionalProperties: false }
@@ -29,7 +30,8 @@ export const donationsDataSchema = Type.Pick(donationsSchema, [
   'bank_name',
   'source_bank',
   'amount',
-  'proof_image'
+  'proof_image',
+  'is_verified'
 ], {
   $id: 'DonationsData'
 })
@@ -53,6 +55,7 @@ export const donationsQueryProperties = Type.Pick(donationsSchema, [
   'account_name',
   'bank_name',
   'source_bank',
+  'is_verified',
   'created_at'
 ])
 export const donationsQuerySchema = Type.Intersect([
