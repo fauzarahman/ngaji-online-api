@@ -1,4 +1,4 @@
-// // For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
+// For more information about this file see https://dove.feathersjs.com/guides/cli/service.schemas.html
 import { resolve } from '@feathersjs/schema'
 import { Type, getValidator, querySyntax } from '@feathersjs/typebox'
 import { dataValidator, queryValidator } from '../../validators.js'
@@ -30,15 +30,19 @@ export const sectionsPatchSchema = Type.Partial(sectionsSchema, {
 export const sectionsPatchValidator = getValidator(sectionsPatchSchema, dataValidator)
 export const sectionsPatchResolver = resolve({})
 
-// Schema for allowed query properties
-export const sectionsQueryProperties = Type.Pick(sectionsSchema, ['id', 'section_name'])
-export const sectionsQuerySchema = Type.Intersect(
-  [
-    querySyntax(sectionsQueryProperties),
-    // Add additional query properties here
-    Type.Object({}, { additionalProperties: false })
-  ],
-  { additionalProperties: false }
-)
+export const sectionsQueryProperties = Type.Object({
+  id: Type.Optional(Type.Number()),
+  section_name: Type.Union([
+    Type.String(),
+    Type.Object({ $like: Type.String() })
+  ])
+})
+
+
+export const sectionsQuerySchema = Type.Intersect([
+  querySyntax(sectionsQueryProperties),
+  Type.Object({}, { additionalProperties: false })
+])
+
 export const sectionsQueryValidator = getValidator(sectionsQuerySchema, queryValidator)
 export const sectionsQueryResolver = resolve({})
