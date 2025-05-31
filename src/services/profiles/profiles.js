@@ -52,13 +52,13 @@ export const profiles = app => {
   // Initialize hooks
   app.service(profilesPath).hooks({
     around: {
-      all: [authenticate('jwt'),schemaHooks.resolveExternal(profilesExternalResolver), schemaHooks.resolveResult(profilesResolver)],
-      find: [],
-      get: [],
+      all: [schemaHooks.resolveExternal(profilesExternalResolver), schemaHooks.resolveResult(profilesResolver)],
+      find: [authenticate('jwt')],
+      get: [authenticate('jwt')],
       create: [],
-      update: [],
-      patch: [],
-      remove: []
+      update: [authenticate('jwt')],
+      patch: [authenticate('jwt')],
+      remove: [authenticate('jwt')]
     },
     before: {
       all: [
