@@ -12,6 +12,7 @@
   "mysql": {
     "client": "mysql",
     "connection": "mysql://root:root@127.0.0.1:3306/ngaji-yuk"
+    "charset": "utf8"
   },
   "authentication": {
     "entity": "user",
