@@ -31,7 +31,7 @@ export const userDataSchema = Type.Pick(userSchema, ['email', 'password','role']
 export const userDataValidator = getValidator(userDataSchema, dataValidator)
 export const userDataResolver = resolve({
   password: passwordHash({ strategy: 'local' }),
-  created_date: async () => new Date().toISOString()
+  created_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for updating existing entries
@@ -41,7 +41,7 @@ export const userPatchSchema = Type.Partial(userSchema, {
 export const userPatchValidator = getValidator(userPatchSchema, dataValidator)
 export const userPatchResolver = resolve({
   password: passwordHash({ strategy: 'local' }),
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for allowed query properties

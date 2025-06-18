@@ -37,7 +37,7 @@ export const modulesDataSchema = Type.Pick(modulesSchema, [
 
 export const modulesDataValidator = getValidator(modulesDataSchema, dataValidator)
 export const modulesDataResolver = resolve({
-  created_date: async () => new Date().toISOString()
+  created_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for updating existing entries
@@ -46,7 +46,7 @@ export const modulesPatchSchema = Type.Partial(modulesSchema, {
 })
 export const modulesPatchValidator = getValidator(modulesPatchSchema, dataValidator)
 export const modulesPatchResolver = resolve({
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for allowed query properties

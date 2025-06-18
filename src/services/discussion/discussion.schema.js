@@ -25,7 +25,7 @@ export const discussionDataSchema = discussionSchema
 
 export const discussionDataValidator = getValidator(discussionDataSchema, dataValidator)
 export const discussionDataResolver = resolve({
-  created_date: async () => new Date().toISOString()
+  created_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for updating existing entries
@@ -34,7 +34,7 @@ export const discussionPatchSchema = Type.Partial(discussionSchema, {
 })
 export const discussionPatchValidator = getValidator(discussionPatchSchema, dataValidator)
 export const discussionPatchResolver = resolve({
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for allowed query properties

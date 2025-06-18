@@ -34,7 +34,7 @@ export const quizDataSchema = Type.Pick(quizSchema, [
 
 export const quizDataValidator = getValidator(quizDataSchema, dataValidator)
 export const quizDataResolver = resolve({
-  created_date: async () => new Date().toISOString()
+  created_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for updating existing entries
@@ -43,7 +43,7 @@ export const quizPatchSchema = Type.Partial(quizSchema, {
 })
 export const quizPatchValidator = getValidator(quizPatchSchema, dataValidator)
 export const quizPatchResolver = resolve({
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for allowed query properties

@@ -36,7 +36,7 @@ export const lessonsDataSchema = Type.Pick(lessonsSchema, [
 
 export const lessonsDataValidator = getValidator(lessonsDataSchema, dataValidator)
 export const lessonsDataResolver = resolve({
-  created_date: async () => new Date().toISOString()
+  created_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for updating existing entries
@@ -45,7 +45,7 @@ export const lessonsPatchSchema = Type.Partial(lessonsSchema, {
 })
 export const lessonsPatchValidator = getValidator(lessonsPatchSchema, dataValidator)
 export const lessonsPatchResolver = resolve({
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Schema for allowed query properties

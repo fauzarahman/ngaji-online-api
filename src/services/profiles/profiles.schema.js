@@ -35,7 +35,7 @@ export const profilesDataValidator = getValidator(profilesDataSchema, dataValida
 export const profilesDataResolver = resolve(
   (value) => (typeof value === 'object' && value !== null ? { ...value } : {}),
   {
-    created_date: () => new Date().toISOString()
+    created_date: async () => new Date().toLocaleString('sv-SE')
   }
 )
 
@@ -46,7 +46,7 @@ export const profilesPatchValidator = getValidator(profilesPatchSchema, dataVali
 export const profilesPatchResolver = resolve(
   (value) => (typeof value === 'object' && value !== null ? { ...value } : {}),
   {
-    updated_date: () => new Date().toISOString()
+    updated_date: async () => new Date().toLocaleString('sv-SE')
   }
 )
 

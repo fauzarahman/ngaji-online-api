@@ -38,7 +38,7 @@ export const donationsDataSchema = Type.Pick(donationsSchema, [
 
 export const donationsDataValidator = getValidator(donationsDataSchema, dataValidator)
 export const donationsDataResolver = resolve({
-  created_at: async () => new Date().toISOString()
+  created_at: async () => new Date().toLocaleString('sv-SE')
 })
 
 // Patch schema

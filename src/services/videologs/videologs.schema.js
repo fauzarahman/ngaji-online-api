@@ -32,7 +32,7 @@ export const videologsDataValidator = getValidator(videologsDataSchema, dataVali
 // ⏱️ Resolver: gunakan updated_date dari frontend, atau isi otomatis jika tidak ada
 export const videologsDataResolver = resolve(value => ({
   ...value,
-  updated_date: value.updated_date || new Date().toISOString()
+  updated_date: value.updated_date || new Date().toLocaleString('sv-SE')
 }))
 
 // ✏️ Schema for patching existing entries (semua optional)
@@ -41,11 +41,11 @@ export const videologsPatchSchema = Type.Partial(videologsSchema, {
 })
 export const videologsPatchValidator = getValidator(videologsPatchSchema, dataValidator)
 export const videologsPatchResolver = resolve({
-  updated_date: async () => new Date().toISOString()
+  updated_date: async () => new Date().toLocaleString('sv-SE')
 })
 
 // 🔍 Schema for allowed query properties (ubah jika mau query by field lain)
-export const videologsQueryProperties = Type.Pick(videologsSchema, ['id', 'user_id', 'parent_id'])
+export const videologsQueryProperties = Type.Pick(videologsSchema, ['id', 'user_id', 'parent_id','is_complete'])
 
 export const videologsQuerySchema = Type.Intersect([
   querySyntax(videologsQueryProperties),
